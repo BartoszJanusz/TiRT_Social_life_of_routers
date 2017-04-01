@@ -47,6 +47,7 @@ int wtree::printTree()
 	cout << "Links in Tree: " << this->t.size() << endl;
 	cout << "Nodes in Tree: " << this->n.size() << endl;
 	cout << "Links remaining overall " << this->links->size() << endl;
+	return 0;
 }
 
 // walktree
@@ -94,6 +95,7 @@ int wtree::walkTree()
 		}
 		this->np = nph;
 	}
+	return 0;
 }
 
 // mergeTrees
@@ -124,7 +126,7 @@ int wtree::mergeTrees(vector< wtree * > * trees)
 		no += trees->at(i)->n.size();	
 	}
 	this->np = no;
-	
+	return 0;	
 }
 
 // outputWalrusFormat
