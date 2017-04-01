@@ -27,3 +27,10 @@
 *.exe
 *.out
 *.app
+
+# Vim swap files
+*.swp
+*.swo
+
+# This project executable
+slor

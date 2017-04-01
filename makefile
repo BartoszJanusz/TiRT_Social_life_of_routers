@@ -1,15 +1,15 @@
-CC=g++
-CFLAGS=-c -O3
+CXX?=g++
+CXXFLAGS=-c -O3
 LDFLAGS=
-SOURCES=main.cpp wlink.cpp wtree.cpp
-OBJECTS=$(SOURCES:.c=.o)
+SOURCES=wlink.cpp wtree.cpp main.cpp
+OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=slor
 
 
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS) 
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CXX) $(LDFLAGS) $(OBJECTS) -o $@
 
 .cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) $< -o $@
