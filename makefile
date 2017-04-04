@@ -1,5 +1,5 @@
 CXX?=g++
-CXXFLAGS=-c -O3
+CXXFLAGS=-c -O3 -std=c++11
 LDFLAGS=
 SOURCES=wlink.cpp wtree.cpp main.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
