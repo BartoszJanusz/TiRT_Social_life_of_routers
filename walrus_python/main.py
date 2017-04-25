@@ -39,8 +39,8 @@ def load_graph(file):
 
     st = min_spanning_tree(g, weights=None, root=0)
 
-    for e in st.get_array():
-        print(e)
+    #for e in st.get_array():
+    #    print(e)
 
     g.set_edge_filter(st, inverted=False)
     stg = Graph(g, prune=True)
@@ -66,17 +66,30 @@ def load_graph(file):
 
     return stg, st.get_array()
 
-
 # g = Graph(load_graph_from_csv("graph_as.csv", directed=False, ecols=(0, 1), csv_options={'delimiter': ','}))
 g, st = load_graph("graph_as_nolabel.csv")
 
+print("Started algorithm on graph...")
 start = time.time()
-#pos = sfdp_layout(g)
-#graph_draw(u, pos, output_size=(10000, 10000), output="st_as_10k.png")
+vprop=graph_tool.centrality.closeness(g)
 end = time.time()
+print("Finished algorithm on graph")
+print("Algorithm duration:", end - start, "sec")
+
+# Printing algorithm values
+#for e in vprop.get_array():
+#    print(e)
+
+output_file="st_as_10k.png"
+print("Started drawing graph", output_file, "...")
+start = time.time()
+pos = sfdp_layout(g)
+graph_draw(g, pos, vertex_size=vprop, output_size=(10000, 10000), output=output_file)
+end = time.time()
+print("Finished drawing graph", output_file)
 
 # edges = sorted(g.get_edges(), key=lambda x: x[0])
 
 walrus_output(g, st)
 
-print("Generate png: ", end - start)
+print("Generate png:", end - start, "sec")
