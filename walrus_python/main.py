@@ -92,4 +92,12 @@ print("Finished drawing graph", output_file)
 
 walrus_output(g, st)
 
+#Janusz edit:
+g = Graph(load_graph_from_csv("data/graph_as.csv", directed=False, ecols=(0, 1), csv_options={'delimiter': ','}))
+g = GraphView(g, vfilt=label_largest_component(g))
+pr = pagerank(g)
+pos = sfdp_layout(g)
+graph_draw(g, pos=pos, vertex_fill_color=pr, vertex_size=prop_to_size(pr, mi=5, ma=100),
+              vorder=pr, vcmap=matplotlib.cm.gnuplot, output_size=(10000, 10000), output="closeness_as_10k.png")
+
 print("Generate png:", end - start, "sec")
