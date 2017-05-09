@@ -24,6 +24,7 @@ def load_graph(file):
     for i, v in enumerate(vertices):
         v_dict[v] = i
 
+
     g = Graph(directed=False)
     g.add_vertex(len(vertices))
 
@@ -38,15 +39,23 @@ def load_graph(file):
         v2 = v_dict[int(sl[1])]
         edges.append((v1, v2))
         g.add_edge(v1, v2)
+        if v1 == 0 or v2 == 0:
+            print(v1, v2)
     gf.close()
+
     print('{:35}'.format("Number edges"), g.num_edges())
-
+    print("First vertex:", g.vertex(0, use_index=True))
     # Zbuduj minimalne drzewo rozpinające.
-    st = min_spanning_tree(g, weights=None, root=0)
-
+    st = min_spanning_tree(g, weights=None, root=g.vertex(0, use_index=False))
+    print(g.get_edges()[0])
     # Zbuduj nowy graf zawierający wyłącznie drzewo rozpinające.
     g.set_edge_filter(st, inverted=False)
     stg = Graph(g, prune=True)
+    for e in stg.get_edges():
+        if e[1] == 0:
+            print(e)
+    #print(stg.edge(0, 64))
+
     g.clear_filters()
 
     #graph_draw(g, output_size=(3000, 3000), output="double_test_st.png")
@@ -65,14 +74,36 @@ def load_graph(file):
     non_stg_edges = set(non_stg_edges)
 
     print('{:35}'.format("Number non-st edges (set)"), len(non_stg_edges))
-
+    cnt = 0
     #Dodać pozostałe (jeszcze nie obecne w drzewie) krawędzie do drzewa.
     for e in non_stg_edges:
         l = list(e)
         if not(stg.edge(l[0], l[1])):
             stg.add_edge(l[0], l[1])
+            cnt += 1;
+    print('{:35}'.format("Number edges added to st"), cnt)
+    print('{:35}'.format("Number graph edges"), stg.num_edges())
 
-    return stg, st.get_array()
+    stg_fixed = Graph(directed=False)
+    stg_fixed.add_vertex(stg.num_vertices())
+
+    for e in stg.edges():
+        #print("Source:", e.source())
+        s = e.source()
+        t = e.target()
+
+        if s > t:
+            print("s=", s, "t=", t)
+            stg_fixed.add_edge(t, s, add_missing=False)
+        else:
+            stg_fixed.add_edge(s, t, add_missing=False)
+
+    print("First g edge:", stg_fixed.get_edges()[0])
+
+    for e in stg_fixed.edges():
+        print(e)
+    stg_fixed.set_directed(True)
+    return stg_fixed, min_spanning_tree(stg_fixed, weights=None, root=0).get_array()
 
 #g = Graph(load_graph_from_csv("data/graph_as.csv", directed=False, ecols=(0, 1), csv_options={'delimiter': ','}))
 
@@ -83,27 +114,22 @@ print("--------------Time measurments--------------")
 print('{:35}'.format("Load graph"), end - start)
 
 start = time.time()
-g = GraphView(g, vfilt=label_largest_component(g))
-end = time.time()
-print('{:35}'.format("GraphView"), end - start)
-
-start = time.time()
 alg = closeness(g)
 end = time.time()
 print('{:35}'.format("Algorithm"), end - start)
 
 start = time.time()
-pos = fruchterman_reingold_layout(g)
+#pos = sfdp_layout(g, vweight=alg)
 end = time.time()
 print('{:35}'.format("Layout calculation"), end - start)
 
 start = time.time()
-graph_draw(g, pos=pos, vertex_fill_color=alg, vertex_size=prop_to_size(alg, mi=5, ma=100),
-           vorder=alg, vcmap=matplotlib.cm.gnuplot, output_size=(10000, 10000), output="closeness_simple_as_10k.png")
+#graph_draw(g, vertex_fill_color=alg, vertex_size=prop_to_size(alg, mi=5, ma=100),
+#           vorder=alg, vcmap=matplotlib.cm.gnuplot, output_size=(10000, 10000), output="g.png")
 end = time.time()
 print('{:35}'.format("Generate png"), end - start)
 
+walrus_output(g, st)
 
-#walrus_output(g, st)
 
 
