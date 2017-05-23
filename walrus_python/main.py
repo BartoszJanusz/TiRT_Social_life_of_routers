@@ -3,7 +3,7 @@ from graph_tool.all import *
 import time
 import matplotlib
 from walrus_graph import walrus_output
-from graph_load import load_graph
+from graph_load import load_graph, load_spanning_tree_nodes, load_graph_edges
 
 # def load_graph(file):
 #     gf = open(file, mode='r')
@@ -130,7 +130,9 @@ start = time.time()
 end = time.time()
 print('{:35}'.format("Generate png"), end - start)
 
-#walrus_output(g, st)
+st = load_spanning_tree_nodes('python_spanning_tree.dat')
+
+walrus_output(g, load_graph_edges('python_graph.dat'), st)
 
 
 

@@ -1,4 +1,4 @@
-def walrus_output(graph, spanning_tree):
+def walrus_output(graph, edges, spanning_tree):
     gf = open("pythonWalrus.graph", mode='w')
 
     gf.write("Graph\n")
@@ -13,8 +13,6 @@ def walrus_output(graph, spanning_tree):
     gf.write("\n")
     gf.write("\t### structural data ###\n")
     gf.write("\t@links=[\n")
-
-    edges = graph.get_edges()
 
     for e in edges[:-1]:
         gf.write("\t\t{ @source=" + str(e[0]) + "; @destination=" + str(e[1]) + "; },\n")
@@ -42,16 +40,10 @@ def walrus_output(graph, spanning_tree):
     gf.write("\t\t\t@nodeValues=;\n")
     gf.write("\t\t\t@linkValues=[\n")
 
-    edges = spanning_tree
-    edges_ids = []
-    for i, edge in enumerate(edges):
-        if edge:
-            edges_ids.append(int(i))
+    for v_id in spanning_tree[:-1]:
+        gf.write("\t\t\t\t{ @id=" + str(v_id) + "; @value=T; },\n")
 
-    for e_id in edges_ids[:-1]:
-        gf.write("\t\t\t\t{ @id=" + str(e_id) + "; @value=T; },\n")
-
-    gf.write("\t\t\t\t{ @id=" + str(edges_ids[-1]) + "; @value=T; }\n")
+    gf.write("\t\t\t\t{ @id=" + str(spanning_tree[-1]) + "; @value=T; }\n")
 
     gf.write("\t\t\t];\n")
     gf.write("\t\t\t@pathValues=;\n")

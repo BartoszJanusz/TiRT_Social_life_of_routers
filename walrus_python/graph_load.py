@@ -20,7 +20,8 @@ def load_spanning_tree_nodes( file ):
 
 def load_graph( file ):
 	g = Graph(directed=False)
-	g.add_edge_list( load_graph_edges(file))
+	for e in load_graph_edges(file):
+		g.add_edge(e[0], e[1])
 	return g
 
-load_graph('./python_graph.dat')
+# load_graph('./python_graph.dat')

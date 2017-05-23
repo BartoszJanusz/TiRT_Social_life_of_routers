@@ -4,5 +4,5 @@ file=$(mktemp)
 
 cat $file | grep "@source" | sed -e 's/.*source=\([0-9]*\).*tion=\([0-9]*\).*/\1 \2/g' >python_graph.dat
 
-cat $file | grep "; @value=T;" | sed -e 's/.*id=\([0-9]*\).*/\1/g' >python_spanning_tree.dat
+cat $file | grep "; @value=T;" | tail -n +2 | sed -e 's/.*id=\([0-9]*\).*/\1/g' >python_spanning_tree.dat
 
