@@ -5,6 +5,7 @@ import matplotlib
 from walrus_graph import walrus_output
 from graph_load import load_graph, load_spanning_tree_nodes, load_graph_edges
 
+
 # def load_graph(file):
 #     gf = open(file, mode='r')
 #
@@ -106,7 +107,33 @@ from graph_load import load_graph, load_spanning_tree_nodes, load_graph_edges
 #     stg_fixed.set_directed(True)
 #     return stg_fixed, min_spanning_tree(stg_fixed, weights=None, root=0).get_array()
 
-#g = Graph(load_graph_from_csv("data/graph_as.csv", directed=False, ecols=(0, 1), csv_options={'delimiter': ','}))
+# g = Graph(load_graph_from_csv("data/graph_as.csv", directed=False, ecols=(0, 1), csv_options={'delimiter': ','}))
+
+def map_array(array):
+    output = []
+    max_val = max(array)
+    min_val = min(array)
+    ref_val = max_val - min_val
+
+    for e in array:
+        e = (e - min_val) / ref_val
+        output.append(e)
+    return output
+
+def node_color(array):
+    colors = []
+
+    for e in array:
+        colors.append(matplotlib.cm.gnuplot(e))
+    return colors
+
+def edge_color(array, edges):
+    colors = []
+
+    for e in edges:
+        x = max(array[e[0]], array[e[1]])
+        colors.append(matplotlib.cm.gnuplot(x))
+    return colors
 
 start = time.time()
 g = load_graph("./python_graph.dat")
@@ -115,24 +142,23 @@ print("--------------Time measurments--------------")
 print('{:35}'.format("Load graph"), end - start)
 
 start = time.time()
-alg = closeness(g)
+alg = pagerank(g)
 end = time.time()
 print('{:35}'.format("Algorithm"), end - start)
 
 start = time.time()
-#pos = sfdp_layout(g, vweight=alg)
+# pos = sfdp_layout(g, vweight=alg)
 end = time.time()
 print('{:35}'.format("Layout calculation"), end - start)
 
 start = time.time()
-#graph_draw(g, vertex_fill_color=alg, vertex_size=prop_to_size(alg, mi=5, ma=100),
+# graph_draw(g, vertex_fill_color=alg, vertex_size=prop_to_size(alg, mi=5, ma=100),
 #           vorder=alg, vcmap=matplotlib.cm.gnuplot, output_size=(10000, 10000), output="g.png")
 end = time.time()
 print('{:35}'.format("Generate png"), end - start)
 
 st = load_spanning_tree_nodes('python_spanning_tree.dat')
 
-walrus_output(g, load_graph_edges('python_graph.dat'), st)
-
-
-
+edges = load_graph_edges('python_graph.dat')
+alg = map_array(alg)
+walrus_output(g, edges, st, node_color(alg), edge_color(alg, edges))

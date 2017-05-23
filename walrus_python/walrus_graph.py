@@ -1,4 +1,4 @@
-def walrus_output(graph, edges, spanning_tree):
+def walrus_output(graph, edges, spanning_tree, vertex_colors, edge_colors):
     gf = open("pythonWalrus.graph", mode='w')
 
     gf.write("Graph\n")
@@ -40,15 +40,46 @@ def walrus_output(graph, edges, spanning_tree):
     gf.write("\t\t\t@nodeValues=;\n")
     gf.write("\t\t\t@linkValues=[\n")
 
-    for v_id in spanning_tree[:-1]:
-        gf.write("\t\t\t\t{ @id=" + str(v_id) + "; @value=T; },\n")
+    for e_id in spanning_tree[:-1]:
+        gf.write("\t\t\t\t{ @id=" + str(e_id) + "; @value=T; },\n")
 
     gf.write("\t\t\t\t{ @id=" + str(spanning_tree[-1]) + "; @value=T; }\n")
 
     gf.write("\t\t\t];\n")
     gf.write("\t\t\t@pathValues=;\n")
+    gf.write("\t\t},\n")
+
+
+    gf.write("\t\t{\n")
+    gf.write("\t\t\t@name=$color;\n")
+    gf.write("\t\t\t@type=float3;\n")
+    gf.write("\t\t\t@default=;\n")
+    gf.write("\t\t\t@nodeValues=[\n")
+
+    v_id = 0
+    for v_id, v_color in enumerate(vertex_colors[:-1]):
+        gf.write("\t\t\t\t{ @id=" + str(v_id) + "; @value={" + str(v_color[0]) + "f;" + str(v_color[1]) + "f;" + str(v_color[2]) + "f; }; },\n")
+    v_color = vertex_colors[-1]
+    gf.write("\t\t\t\t{ @id=" + str(v_id+1) + "; @value={" + str(v_color[0]) + "f;" + str(v_color[1]) + "f;" + str(v_color[2]) + "f; }; }\n")
+
+    gf.write("\t\t\t];\n")
+
+    gf.write("\t\t\t@linkValues=[\n")
+
+    e_id = 0
+    for e_id, e_color in enumerate(edge_colors[:-1]):
+        gf.write("\t\t\t\t{ @id=" + str(e_id) + "; @value={" + str(e_color[0]) + "f;" + str(e_color[1]) + "f;" + str(
+            e_color[2]) + "f; }; },\n")
+    e_color = edge_colors[-1]
+    gf.write("\t\t\t\t{ @id=" + str(e_id + 1) + "; @value={" + str(e_color[0]) + "f;" + str(e_color[1]) + "f;" + str(
+        e_color[2]) + "f; }; }\n")
+
+    gf.write("\t\t\t];\n")
+    gf.write("\t\t\t@pathValues=;\n")
     gf.write("\t\t}\n")
     gf.write("\t];\n")
+
+
     gf.write("\t@qualifiers=[\n")
     gf.write("\t\t{\n")
     gf.write("\t\t\t@type=$spanning_tree;\n")
