@@ -1,5 +1,5 @@
-def walrus_output(graph, edges, spanning_tree, vertex_colors, edge_colors):
-    gf = open("pythonWalrus.graph", mode='w')
+def walrus_output(path, graph, edges, spanning_tree, vertex_colors, edge_colors):
+    gf = open(path, mode='w')
 
     gf.write("Graph\n")
     gf.write("{\n")

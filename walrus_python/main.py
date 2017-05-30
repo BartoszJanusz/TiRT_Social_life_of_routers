@@ -120,6 +120,7 @@ def map_array(array):
         output.append(e)
     return output
 
+
 def node_color(array):
     colors = []
 
@@ -127,7 +128,8 @@ def node_color(array):
         colors.append(matplotlib.cm.gnuplot(e))
     return colors
 
-def edge_color(array, edges):
+
+def edge_color_as_nodes(array, edges):
     colors = []
 
     for e in edges:
@@ -135,8 +137,18 @@ def edge_color(array, edges):
         colors.append(matplotlib.cm.gnuplot(x))
     return colors
 
+def edge_color(array):
+    colors = []
+
+    for e in array:
+        colors.append(matplotlib.cm.gnuplot(e))
+    return colors
+
+
 start = time.time()
-g = load_graph("./python_graph.dat")
+g = load_graph("python_graph.dat")
+edges = load_graph_edges('python_graph.dat')
+st = load_spanning_tree_nodes('python_spanning_tree.dat')
 end = time.time()
 print("--------------Time measurments--------------")
 print('{:35}'.format("Load graph"), end - start)
@@ -147,18 +159,16 @@ end = time.time()
 print('{:35}'.format("Algorithm"), end - start)
 
 start = time.time()
-# pos = sfdp_layout(g, vweight=alg)
+pos = sfdp_layout(g, vweight=alg)
 end = time.time()
 print('{:35}'.format("Layout calculation"), end - start)
 
 start = time.time()
-# graph_draw(g, vertex_fill_color=alg, vertex_size=prop_to_size(alg, mi=5, ma=100),
-#           vorder=alg, vcmap=matplotlib.cm.gnuplot, output_size=(10000, 10000), output="g.png")
+graph_draw(g, vertex_fill_color=alg, vertex_size=prop_to_size(alg, mi=5, ma=100),
+           vorder=alg, vcmap=matplotlib.cm.gnuplot, output_size=(10000, 10000), output="../graph_png/pagerank_8k.png")
 end = time.time()
 print('{:35}'.format("Generate png"), end - start)
 
-st = load_spanning_tree_nodes('python_spanning_tree.dat')
-
-edges = load_graph_edges('python_graph.dat')
-alg = map_array(alg)
-walrus_output(g, edges, st, node_color(alg), edge_color(alg, edges))
+#node_alg = map_array(alg[0])
+#edge_alg = map_array(alg[1])
+#walrus_output("../walrus_graph/betweenness_edges_8k.graph", g, edges, st, node_color(node_alg), edge_color(edge_alg))
