@@ -3,6 +3,10 @@ import graph_tool.all as gt
 import time
 
 import matplotlib.pyplot as plt
+import numpy as np
+
+import statsmodels.api as smapi
+from statsmodels.formula.api import ols
 
 
 
@@ -53,19 +57,39 @@ def load_graph(file):
 
     return g
 
+def reject_outliers(data, m=3):
+    return [x for x in data if abs(x - np.mean(data)) < m * np.std(data) ]
 
-file_list = listdir("../data/as-733")
+file_list = listdir("../data/gt_graphs")
 file_list.sort()
 
 print(file_list)
-g=gt.Graph()
+g = gt.Graph()
+graphs = []
+x = []
+y = []
+page_rank_max = []
 
 for i, file in enumerate(file_list):
     g.load("../data/gt_graphs/" + file, fmt='gt')
+    graphs.append(g)
     print("Loaded ", i, " graph")
-    print(g.num_edges())
+    y.append(g.num_vertices())
+    x.append(i)
 
+#https://stackoverflow.com/questions/10231206/can-scipy-stats-identify-and-mask-obvious-outliers   -- to próbuję zrobić
+# Make fit #
+regression = ols("data ~ x", data=dict(data=y, x=x)).fit()
+# Find outliers #
+test = regression.outlier_test()
+outliers = ((x[i],y[i]) for i,t in enumerate(test) if t[2] < 0.5)
+print('Outliers: ', list(outliers))
 
+plt.xlabel("Graph number")
+plt.ylabel("Number vertices")
+plt.plot(y, 'bo', ms=2.0)
+
+plt.show()
 # alg = gt.pagerank(g)
 # gt.graph_draw(g, vertex_fill_color=alg, vertex_size=gt.prop_to_size(alg, mi=5, ma=100),
 #               vorder=alg, vcmap=matplotlib.cm.gnuplot, output_size=(10000, 10000),
