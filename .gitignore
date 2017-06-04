@@ -34,3 +34,6 @@
 
 # This project executable
 slor
+
+# Ignore python cache directory
+__pycache__/
