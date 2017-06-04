@@ -1,13 +1,15 @@
 from os import listdir
 import graph_tool.all as gt
+import graph_tool.centrality as gtc
 import time
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-import statsmodels.api as smapi
-from statsmodels.formula.api import ols
+#import statsmodels.api as smapi
+#from statsmodels.formula.api import ols
 
+from graph_stats import *
 
 
 def load_graph(file):
@@ -64,32 +66,50 @@ file_list = listdir("../data/gt_graphs")
 file_list.sort()
 
 print(file_list)
-g = gt.Graph()
+
 graphs = []
 x = []
 y = []
 page_rank_max = []
 
 for i, file in enumerate(file_list):
+    g = gt.Graph()
     g.load("../data/gt_graphs/" + file, fmt='gt')
     graphs.append(g)
     print("Loaded ", i, " graph")
-    y.append(g.num_vertices())
-    x.append(i)
+#     y.append(g.num_vertices())
+#     x.append(i)
+#
+# #https://stackoverflow.com/questions/10231206/can-scipy-stats-identify-and-mask-obvious-outliers   -- to próbuję zrobić
+# # Make fit #
+# regression = ols("data ~ x", data=dict(data=y, x=x)).fit()
+# # Find outliers #
+# test = regression.outlier_test()
+# outliers = ((x[i],y[i]) for i,t in enumerate(test) if t[2] < 0.5)
+# print('Outliers: ', list(outliers))
+#
+# plt.xlabel("Graph number")
+# plt.ylabel("Number vertices")
+# plt.plot(y, 'bo', ms=2.0)
 
-#https://stackoverflow.com/questions/10231206/can-scipy-stats-identify-and-mask-obvious-outliers   -- to próbuję zrobić
-# Make fit #
-regression = ols("data ~ x", data=dict(data=y, x=x)).fit()
-# Find outliers #
-test = regression.outlier_test()
-outliers = ((x[i],y[i]) for i,t in enumerate(test) if t[2] < 0.5)
-print('Outliers: ', list(outliers))
+# plt.show()
+funcs = [verticies_by_days, edges_by_days, density_by_days, avg_vertex_degree_by_day]
 
-plt.xlabel("Graph number")
-plt.ylabel("Number vertices")
-plt.plot(y, 'bo', ms=2.0)
+for f in funcs:
+    x, y = f( graphs )
+    for z in zip(x, y):
+        print(str(z))
 
-plt.show()
+funcs = [gtc.closeness]
+for f in funcs:
+    x, y = avg_function_value_by_day( graphs, f )
+    for z in zip(x, y):
+        print(str(z))
+
+
+# print( zip( x, y) )
+# print( x , y)
+
 # alg = gt.pagerank(g)
 # gt.graph_draw(g, vertex_fill_color=alg, vertex_size=gt.prop_to_size(alg, mi=5, ma=100),
 #               vorder=alg, vcmap=matplotlib.cm.gnuplot, output_size=(10000, 10000),
