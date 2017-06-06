@@ -57,7 +57,8 @@ def load_alg_data(file):
     alg = open(file, 'r')
     tab = []
     for line in alg:
-        tab.append(line.split(' '))
+        for element in line.split(' '):
+            tab.append(float(element))
 
     return tab
 
