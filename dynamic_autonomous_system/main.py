@@ -53,9 +53,13 @@ def load_graph(file):
     return g
 
 
-def reject_outliers(data, m=3):
-    return [x for x in data if abs(x - np.mean(data)) < m * np.std(data)]
+def load_alg_data(file):
+    alg = open(file, 'r')
+    tab = []
+    for line in alg:
+        tab.append(line.split(' '))
 
+    return tab
 
 file_list = [line.rstrip('\n') for line in open('../data/graphs_no_outliers.txt')]
 
