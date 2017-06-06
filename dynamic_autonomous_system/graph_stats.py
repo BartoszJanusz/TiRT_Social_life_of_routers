@@ -3,7 +3,7 @@ import graph_tool.centrality as cents
 import numpy as np
 
 
-def verticies_by_days(graphs):
+def get_series_of_vertices(graphs):
     x = []
     y = []
     for i, g in enumerate(graphs):
@@ -12,7 +12,7 @@ def verticies_by_days(graphs):
     return x, y
 
 
-def edges_by_days(graphs):
+def get_series_of_edges(graphs):
     x = []
     y = []
     for i, g in enumerate(graphs):
@@ -21,7 +21,7 @@ def edges_by_days(graphs):
     return x, y
 
 
-def density_by_days(graphs):
+def get_series_of_density(graphs):
     x = []
     y = []
     for i, g in enumerate(graphs):
@@ -30,7 +30,7 @@ def density_by_days(graphs):
     return x, y
 
 
-def avg_vertex_degree_by_day(graphs):
+def get_series_of_avg_vertex_degree(graphs):
     x = []
     y = []
     for i, g in enumerate(graphs):
@@ -39,17 +39,19 @@ def avg_vertex_degree_by_day(graphs):
     return x, y
 
 
-def avg_function_value_by_day(graphs, function):
+def apply_function_to_graphs(graphs, function, return_id = 0):
     x = []
     y = []
     for i, g in enumerate(graphs):
         values = function(g)
-        y.append(values.get_array())
+        if type(values) is tuple:
+            y.append(values[return_id].get_array())
+        else:
+            y.append(values.get_array())
         x.append(i)
-        print("func for ", i)
     return x, y
 
-def function_value_for_2dim_array_by_day( algorithm_array, function ):
+def apply_function_to_values( algorithm_array, function ):
     x = []
     y = []
     for i, element in enumerate(algorithm_array):
