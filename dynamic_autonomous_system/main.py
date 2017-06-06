@@ -77,9 +77,35 @@ for i, file in enumerate(file_list):
     g.load("../data/gt_graphs/" + file, fmt='gt')
     graphs.append(g)
     print("Loaded ", i, " graph")
-    y.append(g.num_vertices())
+#     y.append(g.num_vertices())
+#     x.append(i)
+#
 
-matlab_file = open("matlab_data.txt", mode='w')
-for i in y:
-    matlab_file.write(str(i) + "\n")
-matlab_file.close()
+#
+# plt.xlabel("Graph number")
+# plt.ylabel("Number vertices")
+# plt.plot(y, 'bo', ms=2.0)
+
+# plt.show()
+funcs = [verticies_by_days, edges_by_days, density_by_days, avg_vertex_degree_by_day]
+
+for f in funcs:
+    x, y = f( graphs )
+    for z in zip(x, y):
+        print(str(z))
+
+funcs = [gtc.closeness]
+for f in funcs:
+    x, y = avg_function_value_by_day( graphs, f )
+    for z in zip(x, y):
+        print(str(z))
+
+
+# print( zip( x, y) )
+# print( x , y)
+
+# alg = gt.pagerank(g)
+# gt.graph_draw(g, vertex_fill_color=alg, vertex_size=gt.prop_to_size(alg, mi=5, ma=100),
+#               vorder=alg, vcmap=matplotlib.cm.gnuplot, output_size=(10000, 10000),
+#               output="../graph_png/pagerank_8k.png")
+
