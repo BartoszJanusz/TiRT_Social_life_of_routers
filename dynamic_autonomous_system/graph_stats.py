@@ -39,7 +39,7 @@ def get_series_of_avg_vertex_degree(graphs):
     return x, y
 
 
-def apply_function_to_graphs(graphs, function, return_id = 0):
+def apply_gt_function_to_graphs(graphs, function, return_id=0):
     x = []
     y = []
     for i, g in enumerate(graphs):
@@ -49,13 +49,15 @@ def apply_function_to_graphs(graphs, function, return_id = 0):
         else:
             y.append(values.get_array())
         x.append(i)
+        print(i)
     return x, y
 
-def apply_function_to_values( algorithm_array, function ):
+
+def apply_np_function_to_values(algorithm_array, function):
     x = []
     y = []
     for i, element in enumerate(algorithm_array):
         value = function(element)
-        y.append( value )
+        y.append(value)
         x.append(i)
     return x, y
