@@ -43,3 +43,6 @@ __pycache__/
 
 # Matlab autosave file
 *.asv
+
+# Pycharm project properties
+.idea/
