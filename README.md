@@ -2,20 +2,20 @@
 
 Do zrobienia:
 
-1. [ ] Usunąć outliners (grafy z odstającą liczbą wierzchołków).
+1. [x] Usunąć outliers (grafy z odstającą liczbą wierzchołków).
 
 Wykresy na przestrzeni dni (numeracja 0-~700):
 
-2. [ ] Liczba wierzchołków
+2. [x] Liczba wierzchołków
 
-3. [ ] Liczba krawędzi
+3. [x] Liczba krawędzi
 
-4. [ ] Gęstość grafu
+4. [x] Gęstość grafu
 
-5. [ ] Inne wskaźniki np. stopień wierzchołków
+5. [x] Inne wskaźniki np. stopień wierzchołków
 
  Algorytmy:
-  - [ ] Closeness
+  - [x] Closeness
   - [ ] Betweenness
   - [ ] Pagerank
   - [ ] Eigenvector
