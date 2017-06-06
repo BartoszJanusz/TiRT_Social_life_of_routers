@@ -57,9 +57,11 @@ def load_alg_data(file):
     alg = open(file, 'r')
     tab = []
     for line in alg:
+        tmp = []
         for element in line.split(' '):
-            tab.append(float(element))
-
+            if element != '\n':
+                tmp.append(float(element))
+        tab.append(tmp)
     return tab
 
 file_list = [line.rstrip('\n') for line in open('../data/graphs_no_outliers.txt')]
@@ -80,24 +82,35 @@ for i, file in enumerate(file_list):
 funcs = [verticies_by_days, edges_by_days, density_by_days, avg_vertex_degree_by_day]
 ylabels = ["Number vertices", "Number edges", "Density", "Avg vertex degree"]
 
-for i, f in enumerate(funcs):
-    x, y = f(graphs)
-    plt.figure(i)
-    plt.xlabel("Graph number")
-    plt.ylabel(ylabels[i])
+# for i, f in enumerate(funcs):
+#     x, y = f(graphs)
+#     plt.figure(i)
+#     plt.xlabel("Graph number")
+#     plt.ylabel(ylabels[i])
 #    plt.plot(y, 'bo', ms=2.0)
 #    plt.show(block=False)
 
-closeness_file = open('/home/bartosz/TiRT_Social_life_of_routers/data/alg_results/closeness_avg.txt', 'w')
+# closeness_file = open('/home/bartosz/TiRT_Social_life_of_routers/data/alg_results/closeness_avg.txt', 'w')
 
-funcs = [gtc.closeness]
-for f in funcs:
-    x, y = avg_function_value_by_day(graphs, f)
-    for yi in y:
-        for yii in yi:
-            closeness_file.write("%f " % yii)
-        closeness_file.write('\n')
-    closeness_file.close()
+algorithm_array = load_alg_data("../data/alg_results/closeness_avg.txt")
+print("algorithm_array: ", len(algorithm_array))
+x1, y1 = function_value_for_2dim_array_by_day( algorithm_array, np.mean )
+
+for i in range(len(x1)):
+    print(x1[i], y1[i])
+
+# x2, y2 = function_value_for_2dim_array_by_day( algorithm_array, np.median )
+# x3, y3 = function_value_for_2dim_array_by_day( algorithm_array, np.min )
+# x4, y4 = function_value_for_2dim_array_by_day( algorithm_array, np.max )
+
+# funcs = [gtc.closeness]
+# for f in funcs:
+#     x, y = avg_function_value_by_day(graphs, f)
+#     for yi in y:
+#         for yii in yi:
+#             closeness_file.write("%f " % yii)
+#         closeness_file.write('\n')
+#     closeness_file.close()
 
 # plt.figure(4)
 # plt.xlabel("Graph number")

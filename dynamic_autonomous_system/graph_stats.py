@@ -53,6 +53,7 @@ def function_value_for_2dim_array_by_day( algorithm_array, function ):
     x = []
     y = []
     for i, element in enumerate(algorithm_array):
-        y.append( function(element) )
+        value = function(element)
+        y.append( value )
         x.append(i)
     return x, y
