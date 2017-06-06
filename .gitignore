@@ -34,3 +34,12 @@
 
 # This project executable
 slor
+
+# Ignore python cache directory
+__pycache__/
+
+# Visual Studio files
+.vs/
+
+# Matlab autosave file
+*.asv
