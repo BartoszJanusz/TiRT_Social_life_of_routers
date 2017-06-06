@@ -1,13 +1,6 @@
-from os import listdir
 import graph_tool.all as gt
 import graph_tool.centrality as gtc
-import time
-
 import matplotlib.pyplot as plt
-import numpy as np
-
-#import statsmodels.api as smapi
-#from statsmodels.formula.api import ols
 
 from graph_stats import *
 
@@ -59,13 +52,12 @@ def load_graph(file):
 
     return g
 
+
 def reject_outliers(data, m=3):
-    return [x for x in data if abs(x - np.mean(data)) < m * np.std(data) ]
+    return [x for x in data if abs(x - np.mean(data)) < m * np.std(data)]
 
-file_list = listdir("../data/gt_graphs")
-file_list.sort()
 
-print(file_list)
+file_list = [line.rstrip('\n') for line in open('../data/graphs_no_outliers.txt')]
 
 graphs = []
 x = []
@@ -77,29 +69,38 @@ for i, file in enumerate(file_list):
     g.load("../data/gt_graphs/" + file, fmt='gt')
     graphs.append(g)
     print("Loaded ", i, " graph")
-#     y.append(g.num_vertices())
-#     x.append(i)
-#
+    y.append(g.num_vertices())
+    x.append(i)
 
-#
-# plt.xlabel("Graph number")
-# plt.ylabel("Number vertices")
-# plt.plot(y, 'bo', ms=2.0)
-
-# plt.show()
 funcs = [verticies_by_days, edges_by_days, density_by_days, avg_vertex_degree_by_day]
+ylabels = ["Number vertices", "Number edges", "Density", "Avg vertex degree"]
 
-for f in funcs:
-    x, y = f( graphs )
-    for z in zip(x, y):
-        print(str(z))
+for i, f in enumerate(funcs):
+    x, y = f(graphs)
+    plt.figure(i)
+    plt.xlabel("Graph number")
+    plt.ylabel(ylabels[i])
+#    plt.plot(y, 'bo', ms=2.0)
+#    plt.show(block=False)
+
+closeness_file = open('/home/bartosz/TiRT_Social_life_of_routers/data/alg_results/closeness_avg.txt', 'w')
 
 funcs = [gtc.closeness]
 for f in funcs:
-    x, y = avg_function_value_by_day( graphs, f )
-    for z in zip(x, y):
-        print(str(z))
+    x, y = avg_function_value_by_day(graphs, f)
+    for yi in y:
+        for yii in yi:
+            closeness_file.write("%f " % yii)
+        closeness_file.write('\n')
+    closeness_file.close()
 
+# plt.figure(4)
+# plt.xlabel("Graph number")
+# plt.ylabel("Closeness avg")
+# plt.plot(y, 'bo', ms=2.0)
+# plt.show(block=False)
+#
+# plt.show()
 
 # print( zip( x, y) )
 # print( x , y)
@@ -108,4 +109,3 @@ for f in funcs:
 # gt.graph_draw(g, vertex_fill_color=alg, vertex_size=gt.prop_to_size(alg, mi=5, ma=100),
 #               vorder=alg, vcmap=matplotlib.cm.gnuplot, output_size=(10000, 10000),
 #               output="../graph_png/pagerank_8k.png")
-
