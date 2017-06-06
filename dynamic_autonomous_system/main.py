@@ -64,6 +64,7 @@ def load_alg_data(file):
         tab.append(tmp)
     return tab
 
+
 file_list = [line.rstrip('\n') for line in open('../data/graphs_no_outliers.txt')]
 
 graphs = []
@@ -92,26 +93,50 @@ ylabels = ["Number vertices", "Number edges", "Density", "Avg vertex degree"]
 
 # closeness_file = open('/home/bartosz/TiRT_Social_life_of_routers/data/alg_results/closeness_avg.txt', 'w')
 
+funcs = [np.mean, np.median, np.max, np.min]
+prop = ['ro', 'bo', 'go', 'mo']
+
 algorithm_array = load_alg_data("../data/alg_results/closeness_avg.txt")
 print("algorithm_array: ", len(algorithm_array))
-x1, y1 = function_value_for_2dim_array_by_day( algorithm_array, np.mean )
+plt.figure()
+plt.xlabel("Graph number")
+plt.ylabel("Mean closeness")
+for i, f in enumerate(funcs):
+    x1, y1 = function_value_for_2dim_array_by_day(algorithm_array, f)
+    plt.plot(y1, prop[i], ms=2.0)
 
-for i in range(len(x1)):
-    print(x1[i], y1[i])
+
+
+plt.show(block=False)
 
 # x2, y2 = function_value_for_2dim_array_by_day( algorithm_array, np.median )
 # x3, y3 = function_value_for_2dim_array_by_day( algorithm_array, np.min )
 # x4, y4 = function_value_for_2dim_array_by_day( algorithm_array, np.max )
 
-# funcs = [gtc.closeness]
-# for f in funcs:
-#     x, y = avg_function_value_by_day(graphs, f)
-#     for yi in y:
-#         for yii in yi:
-#             closeness_file.write("%f " % yii)
-#         closeness_file.write('\n')
-#     closeness_file.close()
+page_rank_file = open('/home/bartosz/TiRT_Social_life_of_routers/data/alg_results/pagerank.txt', 'w')
 
+funcs = [gtc.pagerank]
+for f in funcs:
+    x, y = avg_function_value_by_day(graphs, f)
+    for yi in y:
+        for yii in yi:
+            page_rank_file.write("%f " % yii)
+        page_rank_file.write('\n')
+    page_rank_file.close()
+
+funcs = [np.mean, np.median, np.min]
+prop = ['ro', 'bo', 'go', 'mo']
+
+algorithm_array = load_alg_data("../data/alg_results/pagerank.txt")
+print("algorithm_array: ", len(algorithm_array))
+plt.figure()
+plt.xlabel("Graph number")
+plt.ylabel("Mean closeness")
+for i, f in enumerate(funcs):
+    x1, y1 = function_value_for_2dim_array_by_day(algorithm_array, f)
+    plt.plot(y1, prop[i], ms=2.0)
+
+plt.show()
 # plt.figure(4)
 # plt.xlabel("Graph number")
 # plt.ylabel("Closeness avg")
