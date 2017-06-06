@@ -48,3 +48,11 @@ def avg_function_value_by_day(graphs, function):
         x.append(i)
         print("func for ", i)
     return x, y
+
+def function_value_for_2dim_array_by_day( algorithm_array, function ):
+    x = []
+    y = []
+    for i, element in enumerate(algorithm_array):
+        y.append( function(element) )
+        x.append(i)
+    return x, y
