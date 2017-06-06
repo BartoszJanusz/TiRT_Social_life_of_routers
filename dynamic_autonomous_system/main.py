@@ -80,13 +80,7 @@ for i, file in enumerate(file_list):
 #     y.append(g.num_vertices())
 #     x.append(i)
 #
-# #https://stackoverflow.com/questions/10231206/can-scipy-stats-identify-and-mask-obvious-outliers   -- to próbuję zrobić
-# # Make fit #
-# regression = ols("data ~ x", data=dict(data=y, x=x)).fit()
-# # Find outliers #
-# test = regression.outlier_test()
-# outliers = ((x[i],y[i]) for i,t in enumerate(test) if t[2] < 0.5)
-# print('Outliers: ', list(outliers))
+
 #
 # plt.xlabel("Graph number")
 # plt.ylabel("Number vertices")
