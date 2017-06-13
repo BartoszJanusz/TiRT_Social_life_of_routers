@@ -58,3 +58,4 @@ __pycache__/
 *.out
 *.gz
 *.toc
+*.pdf
