@@ -274,7 +274,7 @@ identifierstyle=\color{red},
 %\pdftrue \fi
 \ifpdf
  \usepackage[pdftex,bookmarks,breaklinks,unicode]{hyperref}
- \usepackage[pdftex]{graphicx}
+ \usepackage[pdftex,draft]{graphicx}
  \graphicspath{ {images/} }
  \DeclareGraphicsExtensions{.pdf,.jpg,.mps,.png}
 \pdfcompresslevel=9
@@ -295,7 +295,6 @@ identifierstyle=\color{red},
 \DeclareGraphicsExtensions{.eps,.ps,.jpg,.mps,.png}
 \fi
 \sloppy
-
 
 %\graphicspath{{rys01/}{rys02/}}
 
@@ -599,11 +598,10 @@ KIERUNEK: & \@kierunek\\
 %\addcontentsline{toc}{chapter}{Spis tabel}
 \listoftables*
 
-\include{acronyms} %skróty można sobie pominąć
 \chapterstyle{default}
 \include{chapters/1_wstep}
 \include{chapters/2_teoria}
-\include{chapters/3_opis_rozwiazania}
+\include{chapters/3_0_opis_rozwiazania}
 \include{chapters/4_podsumowanie}
 
 %\bibliographystyle{plalpha}
