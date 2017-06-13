@@ -20,7 +20,7 @@ def plot(data, prop, labels, yscale):
         plt.plot(d[1], prop[i], ms=3.0, label=d[0])
 
     box = ax.get_position()
-    ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+    ax.set_position([box.x0, box.y0, box.width * 0.9, box.height])
     ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), markerscale=3)
     plt.show(block=False)
 
