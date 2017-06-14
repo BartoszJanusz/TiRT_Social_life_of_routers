@@ -1,38 +1,48 @@
 \FloatBarrier
-\subsubsection{Przykład}
+\subsubsection{Odrzucone zrzuty - outliers}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{Outliers}
-	\caption{Działanie Betweenness Centrality  na przykładowym grafie}
+	\caption{Wykres wszystkich zrzutów danych z sieci}
 \end{figure}
+Przy badaniu działania algorytmów grafowych korzystano z serii danych - zrzutów sieci na przestrzeni kilku lat. Zrzuty nie były wykonywane codziennie, dodatkowo niektóre z nich znacząco różnią się wielkością od pozostałych. Źródło danych nie podaje przyczyny, ale takie grafy są nielogiczne biorąc pod uwagę ciągłość sieci. Zastosowano zatem wbudowany w MATLAB-a algorytm do usunięcia tychże grafów, które zostały na wykresie oznaczone czerwonymi krzyżykami.
 \FloatBarrier
-\subsubsection{Przykład}
+\subsubsection{Podstawowe miary}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{number_edges}
-	\caption{Działanie Betweenness Centrality  na przykładowym grafie}
+	\caption{Ilość krawędzi w sieci}
 \end{figure}
 \FloatBarrier
 \FloatBarrier
-\subsubsection{Przykład}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{number_vertices}
-	\caption{Działanie Betweenness Centrality  na przykładowym grafie}
+	\caption{Ilość wierzchołków w sieci}
 \end{figure}
 \FloatBarrier
 \FloatBarrier
-\subsubsection{Przykład}
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\textwidth]{degree_percentiles}
-	\caption{Działanie Betweenness Centrality  na przykładowym grafie}
-\end{figure}
-\FloatBarrier\FloatBarrier
-\subsubsection{Przykład}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{graph_density}
-	\caption{Działanie Betweenness Centrality  na przykładowym grafie}
+	\caption{Gęstość grafu}
 \end{figure}
-\FloatBarrier\FloatBarrier
+\FloatBarrier
+Malejąca gęstość grafu wynika wprost z tego, że stosunek ilości wierzchołków do krawędzi jest stały w miarę upływu czasu, mimo tego że obie wartości rosną. Gęstość grafu liczymy ze wzoru:
+\begin{equation}
+\label{graph_density}
+d=\frac{2m}{n(n-1)}
+\end{equation}
+$d$ - gęstość grafu, 
+$m$ - ilość krawędzi, 
+$n$ - ilość wierzchołków
+
+Da się łatwo zauważyć, że jeśli stosunek $\frac{m}{n} = const$, a w tym przypadku $\frac{m}{n} \approx 2 \Rightarrow m \approx 2n$ to wzór \ref{graph_density} można zapisać następująco:
+\begin{equation}
+\label{graph_density_simplified}
+d \approx \frac{4n}{n(n-1)} \equiv d \approx \frac{4}{n-1}
+\end{equation}
+
+Jak widać po przekształceniu uzyskujemy hiperbolę, którą dla dużych $n$ na wąskim przedziale $[3000, 6500]$ można przybliżyć malejącą funkcją liniową.
+\FloatBarrier
+\newpage
