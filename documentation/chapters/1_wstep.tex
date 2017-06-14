@@ -1,0 +1,12 @@
+\chapter{Wstęp}
+\section{Cel projektu}
+
+Celem projektu jest ukazanie oraz dokonanie pomiarów zmienności rzeczywistych sieci systemów autonomicznych. Sieci te są reprezentowane za pomocą grafów nieskierowanych. Do ich analizy zastosowano algorytmy typowo wykorzystywane w przypadku badania sieci społecznościowych, tak zwane miary centralności grafu. Oprócz nich szczególną uwagę zwrócono na stopień poszczególnych węzłów.
+
+\section{Dane sieci}
+
+Znalezienie odpowiednich danych wejściowych wymagało trochę czasu. Z racji niedeterministycznej struktury badanych sieci, niemożliwe było wygenerowanie danych testowych. Konieczne okazało się wykorzystanie danych pochodzących z badań istniejącej sieci internetu. Zdecydowano się wykorzystać zestaw pochodzący z projektu University of Oregon Route Views. Zawiera on 733 instancje grafu, tworzonego poprzez codzienne badania począwszy od 8 listopada 1997 roku. Ostania instancja pochodzi z 2 stycznia 2000 roku. Dane były zbierane za pomocą techniki multi-hop BGP sessions.  
+
+\section{Systemy autonomiczne}
+Oryginalnie projekt miał opierać się na analizie grafów, gdzie każdy wierzchołek odpowiadał pojedynczemu urządzeniu - routerowi. Ze względu jednak na niską dostępność takich zestawów danych oraz ich gigantyczny rozmiar (niemożliwy do przetworzenia na dostępnym sprzęcie), zdecydowano się na badanie większych jednostek. System autonomiczny to sieć lub grupa sieci opartych na protokole IP pod wspólną administracyjną kontrolą, w której utrzymywany jest spójny schemat trasowania. Struktury te są podstawową jednostką budulcową Internetu na poziomie domen. Większość dostępnych topologii sieci internetowej opiera się na ich strukturze, dlatego uznano, że i w opisywanym projekcie znajdą zastosowanie.
+
