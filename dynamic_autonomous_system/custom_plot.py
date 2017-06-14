@@ -26,6 +26,6 @@ def plot(data, prop, labels, yscale):
 
 
 def draw_png(g, alg, filename):
-    gt.graph_draw(g, vertex_fill_color=alg, vertex_size=gt.prop_to_size(alg, mi=5, ma=100),
+    gt.graph_draw(g, vertex_fill_color=alg, vertex_size=gt.prop_to_size(alg, 5, 100),
                   vorder=alg, vcmap=cm.gnuplot, output_size=(10000, 10000),
-                  output="../graph_png/" + filename)
+                  output="../graph_png/" + filename + '.png')

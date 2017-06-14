@@ -28,6 +28,13 @@ def plot_gt_algo(array, title):
     plot(data, ['bo', 'ro', 'go', 'mo'], [title, 'Graph ID', 'Algorithm value'], 'linear')
 
 
+def draw_graphs(graphs):
+    alg_name = ['betweenness', 'closeness', 'pagerank']
+    for g in graphs:
+        alg = [gt.betweenness(g)[0], gt.closeness(g), gt.pagerank(g)]
+        for i, a in enumerate(alg):
+            draw_png(g, a, str(g.num_vertices()) + '_' + alg_name[i])
+
 graphs = load_graphs()
 
 plot_basic_functions(graphs)
@@ -35,6 +42,7 @@ plot_basic_functions(graphs)
 betw = load_data('../data/alg_results/betweenness_vertices.txt')
 clos = load_data('../data/alg_results/closeness.txt')
 pg = load_data('../data/alg_results/pagerank.txt')
+draw_graphs([graphs[0], graphs[-1]])
 degree = get_series_of_vertex_degrees(graphs)
 degree_percentile = [('Percentile 99.99', apply_np_function_to_values(degree, lambda e: np.percentile(e, 99.99))),
                      ('Percentile 99.9', apply_np_function_to_values(degree, lambda e: np.percentile(e, 99.9))),
